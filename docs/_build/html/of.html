@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Optical flow &mdash; Torchtils  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Torchtils  documentation" href="index.html"/>
+        <link rel="next" title="Horn-Schunck" href="optical_flow.html"/>
+        <link rel="prev" title="Torchtils" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Torchtils
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Optical flow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="optical_flow.html">Horn-Schunck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optical_flow.html#module-modules.optical_flow.lucas_kanade">Lucas-Kanade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optical_flow.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rc.html">Region-based CNN (RCNN)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Torchtils</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Optical flow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="optical-flow">
+<h1>Optical flow<a class="headerlink" href="#optical-flow" title="Permalink to this headline">¶</a></h1>
+<p>Consider two successive image frames <span class="math notranslate nohighlight">\(\mathcal{I}_t\)</span> and
+<span class="math notranslate nohighlight">\(\mathcal{I}_{t+1}\)</span> captured with moving light source over
+time. The velocity of the light source, assuming that the intensity of the
+source remains constant, can be computed by differentiating the image over time.
+That is,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{v} = \mathcal{I}_t = \frac{d\mathcal{I}}{dt} =
+  \begin{bmatrix}
+    \frac{\partial{\mathcal{I}}}{\partial{x}}\cdot\frac{\partial{x}}
+    {\partial{t}}\\
+    \frac{\partial{\mathcal{I}}}{\partial{y}}\cdot\frac{\partial{y}}
+    {\partial{t}}
+  \end{bmatrix}
+  = \begin{bmatrix}v_x\\ v_y,\end{bmatrix}\end{split}\]</div>
+<p>where, for any pixel location <span class="math notranslate nohighlight">\((i, j)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v_x(i, j) = \mathcal{I}_{t + 1}(i, j) - \mathcal{I}_t(i-1, j) \\
+v_y(i, j) = \mathcal{I}_{t + 1}(i, j) - \mathcal{I}_t(i, j-1)\end{split}\]</div>
+<p>For a given frame <span class="math notranslate nohighlight">\(\mathcal{I}\)</span>, let its partial, spatial differentials be
+<span class="math notranslate nohighlight">\(\mathcal{I}_x = \frac{\partial\mathcal{I}}{\partial{x}}\)</span> and
+<span class="math notranslate nohighlight">\(\mathcal{I}_y = \frac{\partial\mathcal{I}}{\partial{y}}\)</span>. More precisely,
+for a given pixel <span class="math notranslate nohighlight">\((i, j)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathcal{I}_x(i, j) = \mathcal{I}(i+1, j) - \mathcal{I}(i-1, j)\\
+\mathcal{I}_y(i, j) = \mathcal{I}(i, j+1) - \mathcal{I}(i, j-1)\end{split}\]</div>
+<p>Given this setup, it can be noted that</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{I}(x + v_xdt, y + v_ydt, t + dt) = \mathcal{I}(x, y, t)\]</div>
+<p>This decomposes into its subcomponents with Taylor Series expansion as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathcal{I}(x, y, t) + \mathcal{I}_xv_xdt + \mathcal{I}_yv_ydt + \mathcal{I}_t
+dt + \rm{higher~order~terms} &amp;= \mathcal{I}(x, y, t)\\
+\mathcal{I}(x, y, t) + \mathcal{I}_xv_xdt + \mathcal{I}_yv_ydt + \mathcal{I}_t
+dt &amp;\approx \mathcal{I}(x, y, t)\\
+\mathcal{I}_xv_x + \mathcal{I}_yv_y + \mathcal{I}_t &amp;= 0\\
+\nabla\mathcal{I}^\top\mathbf{v} + \mathcal{I}_t &amp;= 0\\\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nabla\mathcal{I} = \begin{bmatrix}\mathcal{I}_x\\\mathcal{I}_y
+\end{bmatrix}\)</span>. However, the resulting equation, <span class="math notranslate nohighlight">\(\nabla\mathcal{I}^\top
+\mathbf{v} + \mathcal{I}_t = 0\)</span>, known as <em>optical flow constraint equation</em>, is
+that of two unknown variables <span class="math notranslate nohighlight">\(v_x\)</span> and <span class="math notranslate nohighlight">\(v_y\)</span> and hence cannot be
+solved. This is know as the <em>aperture problem</em>.</p>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="optical_flow.html">Horn-Schunck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optical_flow.html#module-modules.optical_flow.lucas_kanade">Lucas-Kanade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optical_flow.html#references">References</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="optical_flow.html" class="btn btn-neutral float-right" title="Horn-Schunck" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Torchtils" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, sujaltv.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+Horn-Schunck method
+===================
+
+.. automodule:: optical_flow.horn_schunck
+  :members:
+  :undoc-members:
+  :show-inheritance:

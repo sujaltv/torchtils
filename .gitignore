@@ -1,0 +1,10 @@
+.venv
+.vscode
+.DS_Store
+
+input/
+output/
+
+__pycache__
+
+!.gitkeep
