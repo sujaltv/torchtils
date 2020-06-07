@@ -86,10 +86,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="of.html">Optical flow</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="of.html#methods">Methods</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Horn-Schunck</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#module-modules.optical_flow.horn_schunck">Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implementation">Implementation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-modules.optical_flow.lucas_kanade">Lucas-Kanade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lucas-kanade">Lucas-Kanade</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
@@ -150,6 +150,10 @@
       <li class="wy-breadcrumbs-aside">
         
             
+            
+              <a href="https://github.com/sujaltv/torchtils/blob/masteroptical_flow.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
         
       </li>
     
@@ -214,63 +218,12 @@ v_y^{m + 1} &amp;= \bar{v}_y^m - \left[\frac{\mathcal{I}_x\bar{v}_x^m + \mathcal
 <p>Thus,</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{v}^{m+1} = \mathbf{v}^m - \alpha(\nabla\mathcal{I})\]</div>
-<div class="section" id="module-modules.optical_flow.horn_schunck">
-<span id="implementation"></span><h2>Implementation<a class="headerlink" href="#module-modules.optical_flow.horn_schunck" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="modules.optical_flow.horn_schunck.HornSchunck">
-<em class="property">class </em><code class="sig-prename descclassname">modules.optical_flow.horn_schunck.</code><code class="sig-name descname">HornSchunck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">w</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/optical_flow/horn_schunck.html#HornSchunck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.optical_flow.horn_schunck.HornSchunck" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>The <cite>HornSchunck</cite> class encapsulates utility and implementation methods
-for optical flow detection with the Horn-Schunck method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<em>int?</em>) – Number of iterations until optimisation (default 5)</p></li>
-<li><p><strong>alpha</strong> (<em>int?</em>) – Tuning factor (default 10)</p></li>
-<li><p><strong>w</strong> (<em>int?</em>) – Averaging window size (default 10)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="modules.optical_flow.horn_schunck.HornSchunck.format_img">
-<em class="property">static </em><code class="sig-name descname">format_img</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/optical_flow/horn_schunck.html#HornSchunck.format_img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.optical_flow.horn_schunck.HornSchunck.format_img" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="modules.optical_flow.horn_schunck.HornSchunck.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/optical_flow/horn_schunck.html#HornSchunck.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.optical_flow.horn_schunck.HornSchunck.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sample forward summary</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>x (torch.Tensor): Image frame at <cite>t</cite>
-y (torch.Tensor): Image frame at time <cite>t + 1</cite>
-verbose (bool, optional): [description]. Defaults to False.</p>
-</dd>
-<dt>Returns:</dt><dd><p>[type]: [description]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="modules.optical_flow.horn_schunck.HornSchunck.read_img">
-<em class="property">static </em><code class="sig-name descname">read_img</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/optical_flow/horn_schunck.html#HornSchunck.read_img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.optical_flow.horn_schunck.HornSchunck.read_img" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="modules.optical_flow.horn_schunck.HornSchunck.show_output">
-<code class="sig-name descname">show_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/optical_flow/horn_schunck.html#HornSchunck.show_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#modules.optical_flow.horn_schunck.HornSchunck.show_output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="modules.optical_flow.horn_schunck.HornSchunck.transformer">
-<code class="sig-name descname">transformer</code><em class="property"> = Compose(     ToTensor() )</em><a class="headerlink" href="#modules.optical_flow.horn_schunck.HornSchunck.transformer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="module-modules.optical_flow.lucas_kanade">
-<span id="lucas-kanade"></span><h1>Lucas-Kanade<a class="headerlink" href="#module-modules.optical_flow.lucas_kanade" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lucas-kanade">
+<h1>Lucas-Kanade<a class="headerlink" href="#lucas-kanade" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
@@ -301,7 +254,7 @@ Flow</em>”, 1981</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, sujaltv.
+        &copy; Copyright 2020, TVS.
 
     </p>
   </div>

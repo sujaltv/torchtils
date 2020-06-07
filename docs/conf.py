@@ -13,7 +13,7 @@
 import os
 import sys
 import sphinx_theme
-import sphinx_material
+# import sphinx_material
 sys.path.insert(0, os.path.abspath('..'))
 
 
@@ -21,9 +21,10 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = 'Torchtils'
 copyright = '2020, TVS'
-author = 'TVS'
+author = '`TVS'
 
 html_show_sourcelink = False
+
 
 # -- General configuration ---------------------------------------------------
 
@@ -48,12 +49,12 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+# html_theme = 'alabaster'
 html_theme = 'stanford_theme'
 html_theme_path = [sphinx_theme.get_html_theme_path('stanford-theme')]
 
@@ -63,11 +64,19 @@ html_theme_path = [sphinx_theme.get_html_theme_path('stanford-theme')]
 html_static_path = ['_static']
 
 html_sidebars = {
-    "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
+    # "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
 }
 
 html_theme_options = {
   # 'nav_title': 'Torchtils',
   # 'color_primary': 'teal',
   # 'color_accent': 'light-teal',
+}
+
+html_context = {
+    "display_github": False,  # Add 'Edit on Github' link instead of 'View page source'
+    "github_user": "sujaltv",
+    "github_repo": "torchtils",
+    "github_version": "master"
+    # "source_suffix": source_suffix,
 }

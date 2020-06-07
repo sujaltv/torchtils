@@ -60,4 +60,4 @@ Methods
 .. toctree::
   :maxdepth: 1
 
-  optical_flow
+  torchtils.optical_flow

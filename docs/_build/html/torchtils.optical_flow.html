@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Horn-Schunck &mdash; Torchtils  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Torchtils  documentation" href="index.html"/>
+        <link rel="up" title="Optical flow" href="of.html"/>
+        <link rel="next" title="Region-based CNN (RCNN)" href="rc.html"/>
+        <link rel="prev" title="Optical flow" href="of.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Torchtils
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="of.html">Optical flow</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rc.html">Region-based CNN (RCNN)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Torchtils</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="of.html">Optical flow</a> &raquo;</li>
+        
+      <li>Horn-Schunck</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="horn-schunck">
+<h1>Horn-Schunck<a class="headerlink" href="#horn-schunck" title="Permalink to this headline">¶</a></h1>
+<p>A global method for <em>Determining Optical Flow</em> was proposed by Berthold Horn and
+Brian Schunck <a class="reference internal" href="#hs81" id="id1"><span>[HS81]</span></a>. The Horn-Schunck method of optical
+flow detection begins with the fact that optical flow cannot be computed
+locally. It further makes the assumption that optical flow is smooth. This
+assumption can be summed up symbolically as <span class="math notranslate nohighlight">\(\int{\int{\Vert\nabla{v_x}
+\Vert^2 + \Vert\nabla{v_x}\Vert^2}} dx dy = 0\)</span>. However, this ideal case many
+not be realistic; any deviation from the sum’s vanishing is treated as spatial
+error, <span class="math notranslate nohighlight">\(e_s\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[e_s = \int{\int{\Vert\nabla{v_x} \Vert^2 + \Vert\nabla{v_x}\Vert^2}} dx dy\]</div>
+<p>Similarly, any violation of the optical flow constraint is treated as chromatic
+error, <span class="math notranslate nohighlight">\(e_c\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[e_c = \int{\int{\left(\nabla{\mathcal{I}}^\top\mathbf{v} +
+  \mathcal{I}_t\right)^2}} dx dy\]</div>
+<p>The total error, <span class="math notranslate nohighlight">\(e\)</span>, is the sum of the two:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}e &amp;= e_s + \lambda e_c\\
+  &amp;= \int{\int{\Vert\nabla{v_x} \Vert^2 + \Vert\nabla{v_x}\Vert^2}} +
+    \lambda\left(\nabla{\mathcal{I}}^\top\mathbf{v} + \mathcal{I}_t\right)^2
+    dx dy\\
+  &amp;= \sum_{i}{\sum_{j}{\Vert\nabla{v_x}(i,j) \Vert^2 + \Vert\nabla{v_x}(i, j)
+    \Vert^2}} +\lambda\left(\nabla{\mathcal{I}}^\top(i, j)\mathbf{v}(i, j) +
+    \mathcal{I}_t(i, j)\right)^2\end{split}\]</div>
+<p>The goal is to minimise this error:</p>
+<div class="math notranslate nohighlight">
+\[\DeclareMathOperator*{\argmin}{arg\,min}
+E = \argmin{e}\]</div>
+<p>So, we differentiate <span class="math notranslate nohighlight">\(E\)</span> and set it to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{dE}{\partial{v_x}\partial{v_y}} &amp;= 0\\
+\frac{\partial{E}}{\partial{v_x}} = 0, \frac{\partial{E}}{\partial{v_y}} &amp;=
+0\\
+2\left(\mathcal{I}_xv_x(i,j) + \mathcal{I}_yv_y(i,j) + \mathcal{I}_t\right)
+\mathcal{I}_x + 2\lambda\left(v_x(i,j) - \bar{v}_x(i,j)\right) &amp;= 0,\\
+2\left(\mathcal{I}_xv_x(i,j) + \mathcal{I}_yv_y(i,j) + \mathcal{I}_t\right)
+\mathcal{I}_y + 2\lambda\left(v_y(i,j) - \bar{v}_y(i,j)\right) &amp;= 0\\\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{v}_x\)</span> and <span class="math notranslate nohighlight">\(\bar{v}_y\)</span> are local averages of <span class="math notranslate nohighlight">\(v_x\)</span>
+and <span class="math notranslate nohighlight">\(v_y\)</span>, respectively. Therefore,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left(\lambda + \mathcal{I}_x^2\right)v_x + \mathcal{I}_x\mathcal{I}_yv_y &amp;=
+\lambda\bar{v}_x - \mathcal{I}_x\mathcal{I}_t\\
+\mathcal{I}_x\mathcal{I}_yv_x + \left(\lambda + \mathcal{I}_y^2\right)v_y &amp;=
+\lambda\bar{v}_y - \mathcal{I}_y\mathcal{I}_t\end{split}\]</div>
+<p>Iteratively,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v_x^{m + 1} &amp;= \bar{v}_x^m - \left[\frac{\mathcal{I}_x\bar{v}_x^m + \mathcal{I}_y\bar{v}_y^m + \mathcal{I}_t}{\lambda+\mathcal{I}_x^2 + \mathcal{I}_y^2}\right]\mathcal{I}_x\\
+v_y^{m + 1} &amp;= \bar{v}_y^m - \left[\frac{\mathcal{I}_x\bar{v}_x^m + \mathcal{I}_y\bar{v}_y^m + \mathcal{I}_t}{\lambda+\mathcal{I}_x^2 + \mathcal{I}_y^2}\right]\mathcal{I}_y\end{split}\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{v}^{m+1} = \mathbf{v}^m - \alpha(\nabla\mathcal{I})\]</div>
+<div class="section" id="module-torchtils.optical_flow.horn_schunck">
+<span id="implementation"></span><h2>Implementation<a class="headerlink" href="#module-torchtils.optical_flow.horn_schunck" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="torchtils.optical_flow.horn_schunck.HornSchunck">
+<em class="property">class </em><code class="sig-prename descclassname">torchtils.optical_flow.horn_schunck.</code><code class="sig-name descname">HornSchunck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">w</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchtils/optical_flow/horn_schunck.html#HornSchunck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torchtils.optical_flow.horn_schunck.HornSchunck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>The <cite>HornSchunck</cite> class encapsulates utility and implementation methods
+for optical flow detection with the Horn-Schunck method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int?</em>) – Number of iterations until optimisation (default 5)</p></li>
+<li><p><strong>alpha</strong> (<em>int?</em>) – Tuning factor (default 10)</p></li>
+<li><p><strong>w</strong> (<em>int?</em>) – Averaging window size (default 10)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="torchtils.optical_flow.horn_schunck.HornSchunck.format_img">
+<em class="property">static </em><code class="sig-name descname">format_img</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchtils/optical_flow/horn_schunck.html#HornSchunck.format_img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torchtils.optical_flow.horn_schunck.HornSchunck.format_img" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="torchtils.optical_flow.horn_schunck.HornSchunck.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchtils/optical_flow/horn_schunck.html#HornSchunck.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torchtils.optical_flow.horn_schunck.HornSchunck.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample forward summary</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>x (torch.Tensor): Image frame at <cite>t</cite>
+y (torch.Tensor): Image frame at time <cite>t + 1</cite>
+verbose (bool, optional): [description]. Defaults to False.</p>
+</dd>
+<dt>Returns:</dt><dd><p>[type]: [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="torchtils.optical_flow.horn_schunck.HornSchunck.read_img">
+<em class="property">static </em><code class="sig-name descname">read_img</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchtils/optical_flow/horn_schunck.html#HornSchunck.read_img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torchtils.optical_flow.horn_schunck.HornSchunck.read_img" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="torchtils.optical_flow.horn_schunck.HornSchunck.show_output">
+<code class="sig-name descname">show_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchtils/optical_flow/horn_schunck.html#HornSchunck.show_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torchtils.optical_flow.horn_schunck.HornSchunck.show_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a sample output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>torch.Tensor</em>) – The image on which to display optical flow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="torchtils.optical_flow.horn_schunck.HornSchunck.transformer">
+<code class="sig-name descname">transformer</code><em class="property"> = Compose(     ToTensor() )</em><a class="headerlink" href="#torchtils.optical_flow.horn_schunck.HornSchunck.transformer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-torchtils.optical_flow.lucas_kanade">
+<span id="lucas-kanade"></span><h1>Lucas-Kanade<a class="headerlink" href="#module-torchtils.optical_flow.lucas_kanade" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<dl class="citation">
+<dt class="label" id="hs81"><span class="brackets"><a class="fn-backref" href="#id1">HS81</a></span></dt>
+<dd><p>Berthold K. P. Horn and Brian G. Rhunck: “<em>Determining Optical
+Flow</em>”, 1981</p>
+</dd>
+</dl>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rc.html" class="btn btn-neutral float-right" title="Region-based CNN (RCNN)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="of.html" class="btn btn-neutral" title="Optical flow" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, TVS.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

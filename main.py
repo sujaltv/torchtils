@@ -1,14 +1,14 @@
 import os
 import cv2
 
-from modules.optical_flow.horn_schunck import HornSchunck
+from torchtils.optical_flow.horn_schunck import HornSchunck
 
 def show_video(path, write_frames=False, output_dir=None):
   """
   This method shows the video
   """
   w = 10
-  h = HornSchunck(w=w, k=5, l = 1)
+  h = HornSchunck(w=w, k=5, alpha=1)
   # h0 = HornSchunck.read_img('./output/frame_50.png')
   # h1 = HornSchunck.read_img('./output/frame_51.png')
 
@@ -55,5 +55,5 @@ def show_video(path, write_frames=False, output_dir=None):
   stream.release()
   cv2.destroyAllWindows()
 
-# show_video('./input/imm.mov')
+show_video('./input/imm.mov')
 # show_video('./input/im.mp4', True, './output')

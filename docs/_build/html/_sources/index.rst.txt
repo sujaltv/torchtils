@@ -12,17 +12,17 @@ well as intricate scholarly papers, all in `PyTorch <https://pytorch.org/>`_.
 Installation
 ------------
 
-* Installing from the `Python Package Index registry <https://pypi.org/>`_:
+* Installing from the `Python Package Index registry <https://pypi.org/project/torchtils/>`_:
 
   .. code-block:: bash
 
     pip install torchtils
 
-* Installing from source:
+* Installing from `source <https://github.com/sujaltv/torchtils>`_:
 
   .. code-block:: bash
 
-    git clone
+    git clone https://github.com/sujaltv/torchtils.git
     cd torchtils
     pip install .
 
@@ -46,13 +46,19 @@ Clone the source:
 
 .. code-block:: bash
 
-  git clone 
+  git clone https://github.com/sujaltv/torchtils.git
 
 Instal ``pip`` packages:
 
 .. code-block:: bash
 
   pip install -r requirements.txt
+
+Building this documentation:
+
+.. code-block:: bash
+
+  sh build_docs.sh
 
 Indices and tables
 ##################

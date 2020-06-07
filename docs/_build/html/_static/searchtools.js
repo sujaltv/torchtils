@@ -266,7 +266,7 @@ var Search = {
         } else {
           // normal html builders
           requestUrl = DOCUMENTATION_OPTIONS.URL_ROOT + item[0] + DOCUMENTATION_OPTIONS.FILE_SUFFIX;
-          linkUrl = item[0] + DOCUMENTATION_OPTIONS.LINK_SUFFIX;
+          linkUrl = item[0] + DOCUMENTATION_OPTIONS.FILE_SUFFIX;
         }
         listItem.append($('<a/>').attr('href',
             linkUrl +
