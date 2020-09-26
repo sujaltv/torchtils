@@ -3,12 +3,12 @@ import setuptools
 
 install_requires = []
 req_path = os.path.dirname(os.path.realpath(__file__)) + '/requirements.txt'
-with open('./requirements.txt') as f:
+with open(req_path) as f:
     install_requires = f.read().splitlines()
 
 setuptools.setup(
     name="torchtils",
-    version="0.0.31",
+    version="0.0.33",
     author="Saandeep Aathreya",
     author_email="saandeepa.93@gmail.com",
     description="Utility of vision methods",

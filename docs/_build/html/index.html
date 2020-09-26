@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="of.html">Optical flow</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="rc.html">Region-based CNN (RCNN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rc.html">Poisson Image Editing</a></li>
 </ul>
 
             
@@ -135,10 +135,6 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            
-              <a href="https://github.com/sujaltv/torchtils/blob/masterindex.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
         
       </li>
     
@@ -180,7 +176,7 @@ pip install .
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="rc.html">Region-based CNN (RCNN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rc.html">Poisson Image Editing</a></li>
 </ul>
 </div>
 </div>
@@ -196,8 +192,16 @@ pip install .
 </pre></div>
 </div>
 <p>Building this documentation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh build_docs.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install sphinx sphinx_theme sphinx-autobuild
+sh build_docs.sh
 </pre></div>
+</div>
+<div class="section" id="note">
+<h2>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h2>
+<p>Due to a bug, the build fails to hyperlink documents on search. To fix it, upon
+building this documentation, replace <code class="docutils literal notranslate"><span class="pre">DOCUMENTATION_OPTIONS.LINK_SUFFIX</span></code> to
+<code class="docutils literal notranslate"><span class="pre">DOCUMENTATION_OPTIONS.FILE_SUFFIX</span></code> in
+<code class="docutils literal notranslate"><span class="pre">docs/_build/html/static/searchtools.js</span></code>.</p>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -258,7 +262,7 @@ pip install .
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

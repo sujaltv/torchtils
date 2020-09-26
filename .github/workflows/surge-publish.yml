@@ -7,15 +7,15 @@ on:
 
 jobs:
   deploy:
-    
+
     runs-on: ubuntu-latest
-    
+
     name: Surge Publish
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-          
+
       - name: Deploy to surge
         uses: dswistowski/surge-sh-action@v1.0.0
         with:

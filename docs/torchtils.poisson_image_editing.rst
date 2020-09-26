@@ -1,0 +1,7 @@
+Poisson Image Editing
+===================
+
+.. automodule:: torchtils.poisson_image_editing.pie
+  :members:
+  :undoc-members:
+  :show-inheritance:

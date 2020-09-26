@@ -1,8 +1,8 @@
-Region-based CNN (RCNN)
+Poisson Image Editing
 -----------------------
 
 .. toctree::
   :maxdepth: 1
-  :caption: RCNN variants
+  :caption: Poisson Image Editing
 
-  torchtils.rcnn
+  torchtils.poisson_image_editing

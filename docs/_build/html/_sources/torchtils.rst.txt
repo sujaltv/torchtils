@@ -8,7 +8,7 @@ Subpackages
    :maxdepth: 4
 
    torchtils.optical_flow
-   torchtils.rcnn
+   torchtils.poisson_image_editing
 
 Module contents
 ---------------

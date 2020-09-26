@@ -58,7 +58,16 @@ Building this documentation:
 
 .. code-block:: bash
 
+  pip install sphinx sphinx_theme sphinx-autobuild
   sh build_docs.sh
+
+Note
+----
+
+Due to a bug, the build fails to hyperlink documents on search. To fix it, upon
+building this documentation, replace ``DOCUMENTATION_OPTIONS.LINK_SUFFIX`` to
+``DOCUMENTATION_OPTIONS.FILE_SUFFIX`` in
+``docs/_build/html/static/searchtools.js``.
 
 Indices and tables
 ##################

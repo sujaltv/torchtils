@@ -76,14 +76,6 @@ Implementation
   :undoc-members:
   :show-inheritance:
 
-Lucas-Kanade
-===================
-
-.. automodule:: torchtils.optical_flow.lucas_kanade
-  :members:
-  :undoc-members:
-  :show-inheritance:
-
 References
 ==========
 
