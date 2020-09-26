@@ -8,13 +8,13 @@ with open(req_path) as f:
 
 setuptools.setup(
     name="torchtils",
-    version="0.0.33",
-    author="Saandeep Aathreya",
-    author_email="saandeepa.93@gmail.com",
-    description="Utility of vision methods",
+    version="0.0.34",
+    author="Sujal Vijayaraghavan",
+    author_email="tvsujal@yahoo.com",
+    description="Utility of computer vision methods",
     long_description="""
-    Torchtils is a utility library with implementations of primitive algorithms
-    as well as intricate scholarly papers, all in PyTorch
+    Torchtils is a utility library of implementation of algorithms and research
+    papers in PyTorch
     """,
     long_description_content_type="text/markdown",
     url="https://torchtils.surge.sh",

@@ -76,7 +76,7 @@ Implementation
   :undoc-members:
   :show-inheritance:
 
-References
+Reference
 ==========
 
 .. [HS81]  Berthold K. P. Horn and Brian G. Rhunck: "*Determining Optical
