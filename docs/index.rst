@@ -39,6 +39,11 @@ Implementation
 
   torchtils.poisson_image_editing
 
+.. toctree::
+  :maxdepth: 1
+
+  torchtils.tts_synthesis
+
 Contribution
 ############
 
