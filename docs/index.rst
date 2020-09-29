@@ -6,8 +6,8 @@
 Torchtils
 #########
 
-Torchtils is a utility library with implementations of primitive algorithms as
-well as intricate scholarly papers, all in `PyTorch <https://pytorch.org/>`_.
+Torchtils is a utility library of implementation of algorithms and research
+papers in `PyTorch <https://pytorch.org/>`_.
 
 Installation
 ------------
@@ -26,7 +26,7 @@ Installation
     cd torchtils
     pip install .
 
-Implementations
+Implementation
 ---------------
 
 .. toctree::
@@ -37,7 +37,12 @@ Implementations
 .. toctree::
   :maxdepth: 1
 
-  rc
+  torchtils.poisson_image_editing
+
+.. toctree::
+  :maxdepth: 1
+
+  torchtils.tts_synthesis
 
 Contribution
 ############

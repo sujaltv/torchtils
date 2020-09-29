@@ -1,9 +1,9 @@
-Poisson Image Editing
+Text-To-Speech Synthesis by Transfer Learning
 -----------------------
 
 Coming soon...
 
-.. automodule:: torchtils.poisson_image_editing.pie
+.. automodule:: torchtils.tts_synthesis.tts
   :members:
   :undoc-members:
   :show-inheritance:

@@ -1,6 +1,6 @@
 # Torchtils
 
-Torchtils is a utility library with implementation of algorithms and research papers in PyTorch. For a complete documentation
+Torchtils is a utility library of implementation of algorithms and research papers in PyTorch. For a complete documentation
 of and more information on this repository, visit
 [Torchtils's site](https://torchtils.surge.sh/).
 
